@@ -3,7 +3,7 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  Logger
+  Logger,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -37,9 +37,7 @@ export class LoggingInterceptor implements NestInterceptor {
       tap(() => {
         if (isLoggingEnabled) {
           const responseTime = Date.now() - now;
-          this.logger.log(
-            `Response: ${response.statusCode} ${responseTime}ms`, 
-          );
+          this.logger.log(`Response: ${response.statusCode} ${responseTime}ms`);
         }
       }),
     );

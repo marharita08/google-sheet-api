@@ -11,9 +11,18 @@ export class SheetRowsService {
     private sheetRowsRepository: Repository<SheetRow>,
   ) {}
 
-  async save(columns: Record<string, string>) {
-    const newRow = this.sheetRowsRepository.create({ columns });
-    await this.sheetRowsRepository.save(newRow);
+  async save(id: number, columns: Record<string, string>) {
+    const existingRow = await this.sheetRowsRepository.findOne({
+      where: { id },
+    });
+
+    if (existingRow) {
+      existingRow.columns = columns;
+      await this.sheetRowsRepository.save(existingRow);
+    } else {
+      const newRow = this.sheetRowsRepository.create({ id, columns });
+      await this.sheetRowsRepository.save(newRow);
+    }
   }
 
   async getAll(): Promise<SheetRow[]> {

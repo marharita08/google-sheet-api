@@ -10,8 +10,6 @@ export class CreateSheetTable1729246479224 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'increment',
           },
           {
             name: 'columns',
