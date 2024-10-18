@@ -3,11 +3,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { typeOrmConfigs } from './configs/typeorm.cofigs';
-import { SheetModule } from './sheet/sheet.module';
+import { SheetModule } from './sheet/sheet-rows.module';
+import { AppDataSource } from './ormconfig';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmConfigs), SheetModule],
+  imports: [TypeOrmModule.forRoot(AppDataSource.options), SheetModule],
   controllers: [AppController],
   providers: [AppService],
 })
