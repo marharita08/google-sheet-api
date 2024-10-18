@@ -7,7 +7,13 @@ import { AppDataSource } from './ormconfig';
 
 async function bootstrap() {
   dotenv.config();
-  await AppDataSource.initialize();
+  await AppDataSource.initialize()
+  .then(() => {
+    console.log('Data Source has been initialized!');
+  })
+  .catch((err) => {
+    console.error('Error during Data Source initialization:', err);
+  });
   await AppDataSource.runMigrations();
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()

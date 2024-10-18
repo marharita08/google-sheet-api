@@ -1,5 +1,11 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
-import { ApiTags, ApiParam, ApiOperation, ApiBody, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiParam,
+  ApiOperation,
+  ApiBody,
+  ApiResponse,
+} from '@nestjs/swagger';
 
 import { SheetRowsService } from './sheet-rows.service';
 import { SheetRow } from './sheet-row.entity';
@@ -11,7 +17,7 @@ export class SheetRowsController {
   constructor(private readonly sheetRowsService: SheetRowsService) {}
 
   @Post(':id')
-  @ApiOperation({ summary: 'Save sheet row by ID' }) 
+  @ApiOperation({ summary: 'Save sheet row by ID' })
   @ApiParam({ name: 'id', description: 'ID of the sheet row' })
   @ApiBody({
     description: 'JSON object containing sheet row data',
@@ -23,7 +29,7 @@ export class SheetRowsController {
     },
   })
   @ApiResponse({
-    status: 201, 
+    status: 201,
     description: 'Sheet row successfully saved',
   })
   @Log()
@@ -48,7 +54,7 @@ export class SheetRowsController {
           columns: {
             type: 'object',
             additionalProperties: { type: 'string' },
-            example: { "A": "value1", "B": "value2" },
+            example: { A: 'value1', B: 'value2' },
           },
         },
       },
@@ -60,7 +66,7 @@ export class SheetRowsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get sheet row by ID' }) 
+  @ApiOperation({ summary: 'Get sheet row by ID' })
   @ApiParam({ name: 'id', description: 'ID of the sheet row' })
   @ApiResponse({
     status: 200,
@@ -69,10 +75,10 @@ export class SheetRowsController {
       type: 'object',
       properties: {
         id: { type: 'number', example: 1 },
-        columns: { 
-          type: 'object', 
+        columns: {
+          type: 'object',
           additionalProperties: { type: 'string' },
-          example: { "A": "value1", "B": "value2" }
+          example: { A: 'value1', B: 'value2' },
         },
       },
     },
