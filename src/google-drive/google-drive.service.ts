@@ -1,6 +1,5 @@
 import { google } from 'googleapis';
 import { Injectable } from '@nestjs/common';
-import * as path from 'path';
 import { GoogleAuth, OAuth2Client } from 'google-auth-library';
 
 @Injectable()
