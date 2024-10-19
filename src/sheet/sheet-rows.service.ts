@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { EmailService } from 'src/email/email.service';
 import { GoogleDriveService } from 'src/google-drive/google-drive.service';
+import { SheetNotification } from 'src/enums/enums';
 
 import { SheetRow } from './sheet-row.entity';
 
@@ -27,10 +28,11 @@ export class SheetRowsService {
     } else {
       const newRow = this.sheetRowsRepository.create({ id, columns });
       await this.sheetRowsRepository.save(newRow);
-      if (await this.sheetRowsRepository.count() % 10 === 0) {
+      const rowCount = await this.sheetRowsRepository.count();
+      if (rowCount % 10 === 0) {
         const emails = await this.googleDriveService.getSheetEmails();
-        emails.filter(email => !email.includes(process.env.SERVICE_EMAIL));
-        await this.emailService.sendEmail(emails.filter(email => !email.includes(process.env.SERVICE_EMAIL)), 'Google Sheet API', 'New 10 rows was added to sheet');
+        const filteredEmails = emails.filter(email => !email.includes(process.env.SERVICE_EMAIL))
+        await this.emailService.sendEmail(filteredEmails, SheetNotification.SUBJECT, SheetNotification.MESSAGE);
       }
     }
   }
