@@ -27,10 +27,11 @@ export class SheetRowsService {
     } else {
       const newRow = this.sheetRowsRepository.create({ id, columns });
       await this.sheetRowsRepository.save(newRow);
-    }
-    if (await this.sheetRowsRepository.count() % 10 === 0) {
-      const emails = await this.googleDriveService.getSheetEmails();
-      await this.emailService.sendEmail(emails, 'Google Sheet API', 'New 10 rows was added to sheet');
+      if (await this.sheetRowsRepository.count() % 10 === 0) {
+        const emails = await this.googleDriveService.getSheetEmails();
+        emails.filter(email => !email.includes(process.env.SERVICE_EMAIL));
+        await this.emailService.sendEmail(emails.filter(email => !email.includes(process.env.SERVICE_EMAIL)), 'Google Sheet API', 'New 10 rows was added to sheet');
+      }
     }
   }
 
